@@ -3,8 +3,6 @@
 A small Android app that browses highlighted artworks from [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/) and shows a detail page for each one.
 It's a showcase of modern Android practices: **Jetpack Compose, MVVM + MVI, Hilt, Coroutines/Flow, Retrofit, type-safe Navigation, and tests on every layer**.
 
-> The project started on Lorem Picsum. When that API went down, only the data layer and models had to change. The architecture, MVI contracts and test setup stayed the same, which is the point of the layering.
-
 ## Features
 - Adaptive grid of Met highlights with **infinite scroll** and **pull-to-refresh**
 - Detail screen with image, artist and bio, date, medium, dimensions, culture, department, credit line, and a link to metmuseum.org
