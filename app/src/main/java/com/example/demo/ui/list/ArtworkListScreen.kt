@@ -32,7 +32,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -64,13 +64,14 @@ fun ArtworkListRoute(
     // Lifecycle-aware: stops collecting when the app is in the background.
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
+    // Configuration-aware (unlike LocalContext): strings follow locale/config changes.
+    val resources = LocalResources.current
 
     ObserveAsEvents(viewModel.effects) { effect ->
         when (effect) {
             is ArtworkListEffect.NavigateToDetail -> onNavigateToDetail(effect.id)
             is ArtworkListEffect.ShowSnackbar ->
-                snackbarHostState.showSnackbar(context.getString(effect.message))
+                snackbarHostState.showSnackbar(resources.getString(effect.message))
         }
     }
 
