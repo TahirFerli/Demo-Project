@@ -1,6 +1,7 @@
 package com.example.demo.data.repository
 
 import com.example.demo.core.suspendRunCatching
+import com.example.demo.data.mapper.toDataError
 import com.example.demo.data.mapper.toDomain
 import com.example.demo.data.remote.PicsumApi
 import com.example.demo.di.IoDispatcher
@@ -32,7 +33,7 @@ class PhotoRepositoryImpl @Inject constructor(
 
     override suspend fun getPhotos(page: Int, pageSize: Int): Result<List<Photo>> =
         withContext(ioDispatcher) {
-            suspendRunCatching {
+            safeApiCall {
                 api.getPhotos(page = page, limit = pageSize).map { it.toDomain() }
             }.onSuccess { photos ->
                 cacheMutex.withLock { photos.forEach { cache[it.id] = it } }
@@ -42,7 +43,14 @@ class PhotoRepositoryImpl @Inject constructor(
     override suspend fun getPhoto(id: String): Result<Photo> =
         withContext(ioDispatcher) {
             cacheMutex.withLock { cache[id] }?.let { return@withContext Result.success(it) }
-            suspendRunCatching { api.getPhoto(id).toDomain() }
+            safeApiCall { api.getPhoto(id).toDomain() }
                 .onSuccess { photo -> cacheMutex.withLock { cache[photo.id] = photo } }
         }
+
+    /** Wraps a network call and converts any failure into a domain [com.example.demo.domain.model.DataError]. */
+    private inline fun <T> safeApiCall(block: () -> T): Result<T> =
+        suspendRunCatching(block).fold(
+            onSuccess = { Result.success(it) },
+            onFailure = { Result.failure(it.toDataError()) },
+        )
 }

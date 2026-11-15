@@ -13,6 +13,8 @@ data class Photo(
     val sourceUrl: String,
     /** Small, resized image for list cells (saves bandwidth & memory). */
     val thumbnailUrl: String,
+    /** Screen-sized image for the detail page. */
+    val largeImageUrl: String,
     /** Full resolution image. */
     val fullImageUrl: String,
 ) {
