@@ -46,7 +46,7 @@ import com.example.demo.ui.common.FullScreenError
 import com.example.demo.ui.common.FullScreenLoading
 import com.example.demo.ui.common.ObserveAsEvents
 import com.example.demo.ui.common.TestTags
-import com.example.demo.ui.theme.DemoProjectTheme
+import com.example.demo.ui.common.PreviewContainer
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 
@@ -194,13 +194,14 @@ internal fun previewArtwork(id: Int) = Artwork(
     artistBio = "Dutch, 1853–1890", date = "1889", medium = "Oil on canvas",
     dimensions = "28 7/8 × 36 3/4 in. (73.2 × 93.4 cm)", department = "European Paintings",
     culture = null, creditLine = "Purchase, The Annenberg Foundation Gift, 1993",
-    imageUrl = "", objectUrl = "https://www.metmuseum.org/art/collection/search/436535",
+    // Not a real URL: previews swap images for a placeholder (see PreviewContainer).
+    imageUrl = "preview://artwork/$id", objectUrl = "https://www.metmuseum.org/art/collection/search/436535",
 )
 
 @Preview(showBackground = true)
 @Composable
 private fun ArtworkListScreenPreview() {
-    DemoProjectTheme {
+    PreviewContainer {
         ArtworkListScreen(
             state = ArtworkListState(artworks = List(6) { previewArtwork(it) }),
             onIntent = {},
@@ -211,7 +212,7 @@ private fun ArtworkListScreenPreview() {
 @Preview(showBackground = true)
 @Composable
 private fun ArtworkListScreenErrorPreview() {
-    DemoProjectTheme {
+    PreviewContainer {
         ArtworkListScreen(state = ArtworkListState(error = R.string.error_network), onIntent = {})
     }
 }

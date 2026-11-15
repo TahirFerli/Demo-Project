@@ -40,7 +40,7 @@ import com.example.demo.ui.common.FullScreenError
 import com.example.demo.ui.common.FullScreenLoading
 import com.example.demo.ui.common.ObserveAsEvents
 import com.example.demo.ui.list.previewArtwork
-import com.example.demo.ui.theme.DemoProjectTheme
+import com.example.demo.ui.common.PreviewContainer
 
 @Composable
 fun ArtworkDetailRoute(
@@ -170,7 +170,7 @@ private fun DetailRow(label: String, value: String) {
 @Preview(showBackground = true)
 @Composable
 private fun ArtworkDetailScreenPreview() {
-    DemoProjectTheme {
+    PreviewContainer {
         ArtworkDetailScreen(
             state = ArtworkDetailState(artwork = previewArtwork(436535), isLoading = false),
             onIntent = {},
