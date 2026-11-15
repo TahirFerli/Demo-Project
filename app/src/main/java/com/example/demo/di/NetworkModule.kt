@@ -1,7 +1,7 @@
 package com.example.demo.di
 
 import com.example.demo.BuildConfig
-import com.example.demo.data.remote.PicsumApi
+import com.example.demo.data.remote.MetMuseumApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,12 +42,12 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient, json: Json): Retrofit = Retrofit.Builder()
-        .baseUrl(PicsumApi.BASE_URL)
+        .baseUrl(MetMuseumApi.BASE_URL)
         .client(okHttpClient)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .build()
 
     @Provides
     @Singleton
-    fun providePicsumApi(retrofit: Retrofit): PicsumApi = retrofit.create(PicsumApi::class.java)
+    fun provideMetMuseumApi(retrofit: Retrofit): MetMuseumApi = retrofit.create(MetMuseumApi::class.java)
 }

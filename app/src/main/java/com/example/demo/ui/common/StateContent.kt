@@ -56,7 +56,7 @@ fun FullScreenError(
 object TestTags {
     const val LOADING = "loading"
     const val ERROR = "error"
-    const val PHOTO_GRID = "photo_grid"
+    const val ARTWORK_GRID = "artwork_grid"
 }
 
 @Preview(showBackground = true)

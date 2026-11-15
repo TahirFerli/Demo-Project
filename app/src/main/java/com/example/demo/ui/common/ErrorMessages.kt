@@ -8,6 +8,8 @@ import com.example.demo.domain.model.DataError
 @StringRes
 fun Throwable.toErrorMessageRes(): Int = when (this) {
     is DataError.Network -> R.string.error_network
+    is DataError.NotFound -> R.string.error_not_found
+    is DataError.RateLimited -> R.string.error_rate_limited
     is DataError.Server -> R.string.error_server
     else -> R.string.error_unknown
 }

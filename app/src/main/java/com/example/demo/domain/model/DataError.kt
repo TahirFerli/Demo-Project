@@ -7,6 +7,9 @@ package com.example.demo.domain.model
  */
 sealed class DataError(cause: Throwable? = null) : Exception(cause) {
     class Network(cause: Throwable? = null) : DataError(cause)
+    class NotFound(cause: Throwable? = null) : DataError(cause)
+    /** The API's firewall blocks clients that send too many requests (403/429). */
+    class RateLimited(cause: Throwable? = null) : DataError(cause)
     class Server(val code: Int, cause: Throwable? = null) : DataError(cause)
     class Unknown(cause: Throwable? = null) : DataError(cause)
 }

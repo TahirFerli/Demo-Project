@@ -1,16 +1,21 @@
 <resources>
-    <string name="app_name">Picsum Gallery</string>
-    <string name="photo_list_title">Picsum Gallery</string>
-    <string name="photo_detail_title">Photo details</string>
-    <string name="photo_by">Photo by %1$s</string>
+    <string name="app_name">Met Gallery</string>
+    <string name="artwork_list_title">Met Highlights</string>
+    <string name="artwork_detail_title">Artwork</string>
+    <string name="untitled">Untitled</string>
+    <string name="unknown_artist">Unknown artist</string>
     <string name="retry">Retry</string>
     <string name="back">Back</string>
     <string name="error_network">No internet connection. Check your network and try again.</string>
+    <string name="error_not_found">This artwork is no longer available.</string>
+    <string name="error_rate_limited">Too many requests. Please wait a minute and try again.</string>
     <string name="error_server">The server is having trouble. Please try again later.</string>
     <string name="error_unknown">Something went wrong.</string>
-    <string name="detail_author">Author</string>
-    <string name="detail_resolution">Resolution</string>
-    <string name="detail_resolution_value">%1$d × %2$d px</string>
-    <string name="detail_id">Photo ID</string>
-    <string name="detail_open_source">View on Unsplash</string>
+    <string name="detail_date">Date</string>
+    <string name="detail_medium">Medium</string>
+    <string name="detail_dimensions">Dimensions</string>
+    <string name="detail_culture">Culture</string>
+    <string name="detail_department">Department</string>
+    <string name="detail_credit_line">Credit line</string>
+    <string name="detail_open_in_browser">View on metmuseum.org</string>
 </resources>

@@ -1,7 +1,7 @@
 package com.example.demo.di
 
-import com.example.demo.data.repository.PhotoRepositoryImpl
-import com.example.demo.domain.repository.PhotoRepository
+import com.example.demo.data.repository.ArtworkRepositoryImpl
+import com.example.demo.domain.repository.ArtworkRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -12,5 +12,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
     @Binds
-    abstract fun bindPhotoRepository(impl: PhotoRepositoryImpl): PhotoRepository
+    abstract fun bindArtworkRepository(impl: ArtworkRepositoryImpl): ArtworkRepository
 }

@@ -3,9 +3,9 @@ package com.example.demo.ui.detail
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.demo.domain.usecase.GetPhotoDetailsUseCase
+import com.example.demo.domain.usecase.GetArtworkDetailsUseCase
 import com.example.demo.ui.common.toErrorMessageRes
-import com.example.demo.ui.navigation.PhotoDetailDestination
+import com.example.demo.ui.navigation.ArtworkDetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
@@ -18,9 +18,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PhotoDetailViewModel @Inject constructor(
+class ArtworkDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val getPhotoDetails: GetPhotoDetailsUseCase,
+    private val getArtworkDetails: GetArtworkDetailsUseCase,
 ) : ViewModel() {
 
     /**
@@ -28,39 +28,40 @@ class PhotoDetailViewModel @Inject constructor(
      * keyed by the route's property name. This survives process death and is trivial
      * to provide in unit tests.
      */
-    private val photoId: String = checkNotNull(savedStateHandle[PhotoDetailDestination.ARG_PHOTO_ID])
+    private val artworkId: Int =
+        checkNotNull(savedStateHandle[ArtworkDetailDestination.ARG_ARTWORK_ID])
 
-    private val _state = MutableStateFlow(PhotoDetailState())
-    val state: StateFlow<PhotoDetailState> = _state.asStateFlow()
+    private val _state = MutableStateFlow(ArtworkDetailState())
+    val state: StateFlow<ArtworkDetailState> = _state.asStateFlow()
 
-    private val _effects = Channel<PhotoDetailEffect>(Channel.BUFFERED)
-    val effects: Flow<PhotoDetailEffect> = _effects.receiveAsFlow()
+    private val _effects = Channel<ArtworkDetailEffect>(Channel.BUFFERED)
+    val effects: Flow<ArtworkDetailEffect> = _effects.receiveAsFlow()
 
     init {
-        loadPhoto()
+        loadArtwork()
     }
 
-    fun onIntent(intent: PhotoDetailIntent) {
+    fun onIntent(intent: ArtworkDetailIntent) {
         when (intent) {
-            PhotoDetailIntent.Retry -> loadPhoto()
-            PhotoDetailIntent.BackClicked -> sendEffect(PhotoDetailEffect.NavigateBack)
-            PhotoDetailIntent.OpenSourceClicked ->
-                _state.value.photo?.let { sendEffect(PhotoDetailEffect.OpenUrl(it.sourceUrl)) }
+            ArtworkDetailIntent.Retry -> loadArtwork()
+            ArtworkDetailIntent.BackClicked -> sendEffect(ArtworkDetailEffect.NavigateBack)
+            ArtworkDetailIntent.OpenInBrowserClicked ->
+                _state.value.artwork?.objectUrl?.let { sendEffect(ArtworkDetailEffect.OpenUrl(it)) }
         }
     }
 
-    private fun loadPhoto() {
+    private fun loadArtwork() {
         _state.update { it.copy(isLoading = true, error = null) }
         viewModelScope.launch {
-            getPhotoDetails(photoId)
-                .onSuccess { photo -> _state.update { it.copy(photo = photo, isLoading = false) } }
+            getArtworkDetails(artworkId)
+                .onSuccess { artwork -> _state.update { it.copy(artwork = artwork, isLoading = false) } }
                 .onFailure { error ->
                     _state.update { it.copy(error = error.toErrorMessageRes(), isLoading = false) }
                 }
         }
     }
 
-    private fun sendEffect(effect: PhotoDetailEffect) {
+    private fun sendEffect(effect: ArtworkDetailEffect) {
         viewModelScope.launch { _effects.send(effect) }
     }
 }
